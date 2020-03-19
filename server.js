@@ -32,3 +32,23 @@ app.get("/public/assets/js/index.js", function(req, res) {
 app.get("/notes", function(req, res) {
   res.sendFile(path.join(__dirname, "./public/notes.html"));
 });
+
+app.get("/api/notes", function(req, res) {
+  fs.readFile("./db/db.json", `utf-8`, (err, data) => {
+    if (err) throw err;
+    return res.json(notes);
+  });
+});
+
+app.post(`/api/notes`, function(req, res) {
+  const newNote = req.body;
+  newNote.routeName = newNote.title.replace(/\s+/g, "").toLowerCase();
+  newNote.id = newNote.title.replace(/\s+/g, "").toUpperCase();
+
+  console.log(`receiving data`);
+  console.log(`body is `, req.body);
+
+  notes.push(newNote);
+
+  res.json(newNote);
+});
