@@ -21,8 +21,8 @@ app.get("/", function(req, res) {
   res.sendFile(path.join(__dirname, "./public/index.html"));
 });
 
-app.get("public/assets/css/stlyes.css", function(req, res) {
-  res.sendFile(path.join(__dirname, "./public/assets/css/stlyes.css"));
+app.get("public/assets/css/styles.css", function(req, res) {
+  res.sendFile(path.join(__dirname, "./public/assets/css/styles.css"));
 });
 
 app.get("/public/assets/js/index.js", function(req, res) {
@@ -51,4 +51,17 @@ app.post(`/api/notes`, function(req, res) {
   notes.push(newNote);
 
   res.json(newNote);
+});
+
+app.delete(`api/notes/:id`, function(req, res) {
+  const delNote = req.params.id;
+  console.log(delNote);
+  for (i = 0; i < notes.length; i++)
+    if (delNote == notes[i].id) {
+      notes.pop(notes[i]);
+    }
+});
+
+app.listen(PORT, function() {
+  console.log("App listening on PORT " + PORT);
 });
